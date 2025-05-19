@@ -861,6 +861,11 @@ namespace IceMilkTea.StateMachine
         public ImtStateMachine(TContext context) : base(context)
         {
         }
+
+        public static implicit operator ImtStateMachine<TContext>(ImtStateMachine<SM_GameState, SM_GameState.GameStateEvents> v)
+        {
+            throw new NotImplementedException();
+        }
     }
     #endregion
 }
