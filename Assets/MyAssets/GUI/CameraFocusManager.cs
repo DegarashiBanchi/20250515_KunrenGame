@@ -20,6 +20,4 @@ public class CameraFocusManager : MonoBehaviour
             Debug.LogWarning("CinemachineCamera is not assigned.");
         }
     }
-
-
 }

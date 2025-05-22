@@ -1,6 +1,7 @@
 ﻿// エームステートを管理するステートマシン。
 
 using IceMilkTea.StateMachine;
+using UnityEditor;
 using UnityEngine;
 
 public class SM_GameState : MonoBehaviour
@@ -31,6 +32,9 @@ public class SM_GameState : MonoBehaviour
 
         // 起動ステートを設定。
         _stateMacine.SetStartState<TitleState>(); // タイトル画面を初期ステートに設定
+
+        // ステートマシンの起動
+        _stateMacine.Update(); 
     }
 
 
@@ -45,7 +49,7 @@ public class SM_GameState : MonoBehaviour
     // タイトル画面ステート
     private class TitleState : ImtStateMachine<SM_GameState , GameStateEvents>.State
     {
-        
+       
     }
 
     // オープニング画面ステート
@@ -70,4 +74,11 @@ public class SM_GameState : MonoBehaviour
     {
     }
 
+
+    // ステートマシンの遷移メソッド
+    // ゲームステートへの遷移。
+    public void TransitionToGameState()
+    {
+        _stateMacine.SendEvent(GameStateEvents.ToGame);
+    }
 }
