@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Enemy
   - StateMachine
+  - Key
   layers:
   - Default
   - TransparentFX

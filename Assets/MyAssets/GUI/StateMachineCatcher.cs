@@ -1,6 +1,5 @@
 ﻿// ステートマシンをキャッチするためのクラス。
 
-using System.Threading.Tasks;
 using AnnulusGames.SceneSystem;
 using Cysharp.Threading.Tasks;
 using UnityEngine;

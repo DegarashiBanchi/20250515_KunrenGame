@@ -12,3 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b68f7e318c73924e90eab5e504a67b0, type: 3}
   m_Name: SO_MaskStatus
   m_EditorClassIdentifier: 
+  canGoal:
+    value: 0

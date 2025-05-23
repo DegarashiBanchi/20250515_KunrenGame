@@ -16,6 +16,7 @@ public class PCFollower : MonoBehaviour
     [SerializeField] private bool isFollowing = false;
     private const string PlayerTag = "Player";
     [SerializeField] Rigidbody2D rb; // Rigidbody2Dの参照
+    [SerializeField] SO_MaskStatus _maskStatus; // マスクの状態を管理するScriptableObjectの参照
 
     private void Start()
     {
@@ -43,7 +44,14 @@ public class PCFollower : MonoBehaviour
             }
 
             // _PCmanager._followersに自分を追加する
-            _PCmanager.AddFollower(this);
+            _PCmanager.AddFollower(this.gameObject);
+
+            // 自身が「Key」タグを持っている場合、_maskStatusのcanGoalをtrueにする
+            if (gameObject.CompareTag("Key"))
+            {
+                _maskStatus.canGoal.Value = true;
+                Debug.Log("canGoalをtrueにしました");
+            }
         }
     }
 
@@ -58,7 +66,7 @@ public class PCFollower : MonoBehaviour
 
             // 追従対象への方向ベクトルを計算して正規化。
             Vector2 direction = (followerPos - selfPos).normalized;
-            Debug.Log($"{direction}");
+            //Debug.Log($"{direction}");
 
             // 対象からdistanceFromFollowerだけ離れた位置を計算
             Vector2 targetPosition = followerPos - direction * distanceFromFollower;
@@ -74,7 +82,7 @@ public class PCFollower : MonoBehaviour
         // 追従を停止
         isFollowing = false;
         // 自分をPCmanagerのリストから削除する
-        _PCmanager._followers.Remove(this);
+        _PCmanager._followers.Remove(this.gameObject);
 
         // 重力を0.2fに設定
         if (rb != null)
@@ -89,5 +97,14 @@ public class PCFollower : MonoBehaviour
         {
             rb.AddForce(randomDirection * randomForce, ForceMode2D.Impulse);
         }
+
+        // 自身が「Key」タグを持っている場合、_maskStatusのcanGoalをfalseにする
+        if (gameObject.CompareTag("Key"))
+        {
+            _maskStatus.canGoal.Value = false;
+            Debug.Log("canGoalをfalseにしました");
+        }
     }
+
+
 }
