@@ -99,6 +99,7 @@ GameObject:
   - component: {fileID: 6089307203685582791}
   - component: {fileID: 1932391387937391147}
   - component: {fileID: 9067112337493802211}
+  - component: {fileID: 3327613370467737885}
   m_Layer: 0
   m_Name: Enemy_Circle
   m_TagString: Untagged
@@ -200,6 +201,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _circleRadius: 10
   _time: 3
+--- !u!114 &3327613370467737885
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4524442727215377255}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee0828737f2c3624e902125f980a6355, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyDamage: 1
+  _maskStatus: {fileID: 11400000, guid: 0b9d0e6c103017f4dbb780ddb60182f6, type: 2}
 --- !u!1 &5812969828396222896
 GameObject:
   m_ObjectHideFlags: 0

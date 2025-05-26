@@ -1,17 +1,31 @@
 ﻿using UnityEngine;
-public class LambdaExample2 : MonoBehaviour
+using UnityEngine.Networking;
+using Cysharp.Threading.Tasks;
+using System;
+public class WebRequestSample : MonoBehaviour
 {
-    System.Action _jump;
-    void Start()
+    private async void Start()
     {
-        _jump = () => Debug.Log("ジャンプ!");
-    }
+        string url = "https://jsonplaceholder.typicode.com/posts/1";
+        try
 
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
         {
-            _jump();
+            string json = await GetJsonAsync(url);
+            Debug.Log($"取得したJSON: {json}");
         }
+        catch (Exception ex)
+        {
+            Debug.LogError($"エラー発生: {ex.Message}");
+        }
+    }
+    private async UniTask<string> GetJsonAsync(string url)
+    {
+        using var request = UnityWebRequest.Get(url);
+        await request.SendWebRequest();
+        if (request.result != UnityWebRequest.Result.Success)
+        {
+            throw new Exception(request.error);
+        }
+        return request.downloadHandler.text;
     }
 }

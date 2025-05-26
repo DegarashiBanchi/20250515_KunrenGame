@@ -6,6 +6,7 @@ using UnityEngine;
 public class EnemyManager : MonoBehaviour
 {
     [SerializeField] int enemyDamage = 1; // 敵のダメージ量
+    [SerializeField] SO_MaskStatus _maskStatus; // プレイヤーの被弾状態を管理するScriptableObject
 
 
 
@@ -37,16 +38,22 @@ public class EnemyManager : MonoBehaviour
                 Rigidbody2D playerRb = collision.gameObject.GetComponent<Rigidbody2D>();
                 if (playerRb != null)
                 {
+                    Debug.Log("PCおす");
                     Vector2 pushDirection = (collision.transform.position - transform.position).normalized;
                     playerRb.AddForce(pushDirection * 2f, ForceMode2D.Impulse);
                 }
 
-
-                // ダメージを与える
-                playerDamage.OnPlayerHit(enemyDamage).Forget();
+                // 無敵状態を確認
+                if (_maskStatus.isBeingHit.Value)
+                {
+                    Debug.Log("無敵状態のため、ダメージを与えません。");
+                }
+                else
+                {
+                    // ダメージを与える
+                    playerDamage.OnPlayerHit(enemyDamage).Forget();
+                }
             }
         }
-
-        
     }
 }

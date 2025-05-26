@@ -5,9 +5,8 @@ using UnityEngine;
 [RequireComponent(typeof(Collider2D))]
 public class PCFollower : MonoBehaviour
 {
-    [Header("追従対象")]
-    [SerializeField] private Transform followTransform;
-    [SerializeField] PCmanager _PCmanager; // PCのマネージャの参照
+    private Transform followTransform;
+    PCmanager _PCmanager; // PCのマネージャの参照
 
     [Header("追従設定")]
     [SerializeField] private float smoothSpeed = 4.5f;
@@ -31,6 +30,7 @@ public class PCFollower : MonoBehaviour
         {
             isFollowing = true; // 追従を開始
             rb.gravityScale = 0; // 重力を無効化
+            _PCmanager = other.GetComponent<PCmanager>(); // PCmanagerの取得
 
             // リストを取得し、nullか要素数が0の場合は、otherを追従対象にする。
             if (_PCmanager._followers.Count == 0 || _PCmanager._followers == null)
