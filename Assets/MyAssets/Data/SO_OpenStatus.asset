@@ -17,8 +17,8 @@ MonoBehaviour:
   _highScore:
     value: 0
   _currentHP:
-    value: 7
+    value: 0
   _maxHP:
-    value: 10
+    value: 5
   _currentDepth:
     value: 0

@@ -1,5 +1,6 @@
 ﻿// ゴールゲートの制御を行うクラス。
 
+using Cysharp.Threading.Tasks;
 using R3;
 using UnityEngine;
 
@@ -8,6 +9,7 @@ public class GoalGateController : MonoBehaviour
     [SerializeField] SO_MaskStatus _maskStatus; // マスクの状態を管理するScriptableObjectの参照
     PCmanager _PCmanager; // PCマネージャーの参照
     [SerializeField] SpriteRenderer _gateSpriteRenderer; // ゴールゲートのスプライトレンダラー
+    [SerializeField] SEV_Main _sevMain; // メインシーンイベントマネージャの参照
 
     private void Start()
     {
@@ -53,6 +55,10 @@ public class GoalGateController : MonoBehaviour
         {
             // ゴール処理。
             Debug.Log("ゴールしました");
+            // ゴールゲートのスプライトを無効にする
+
+            // メインゲーム終了処理を呼び出す。
+            _sevMain.EndMainScene().Forget();
         }
     }
 }
