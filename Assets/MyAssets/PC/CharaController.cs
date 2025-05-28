@@ -11,6 +11,7 @@ public class CharaController : MonoBehaviour
     [SerializeField] public Vector2 addMoveForce = Vector2.zero;      // 外部からの移動力（未実装）
     [SerializeField] private Vector2 calcVerocity = Vector2.zero;      // 計算後の移動量
     [SerializeField] private float decelerationRate = 5.0f;            // 減速率
+    [SerializeField] SO_MaskStatus _maskStatus; // マスクステータス情報のScriptableObject
 
     private void Update()
     {
@@ -47,5 +48,11 @@ public class CharaController : MonoBehaviour
     {
         // 入力ベクトルを取得し、moveInputに反映
         moveInput = context.ReadValue<Vector2>();
+
+        // moveInputがzero以外であるとき、MaskStatusの_currentPCDirectionを更新
+        if (moveInput != Vector2.zero)
+        {
+            _maskStatus._currentPCDirection.Value = moveInput.normalized;
+        }
     }
 }

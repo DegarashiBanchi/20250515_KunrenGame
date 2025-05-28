@@ -15,7 +15,18 @@ public class PCFollower : MonoBehaviour
     [SerializeField] private bool isFollowing = false;
     private const string PlayerTag = "Player";
     [SerializeField] Rigidbody2D rb; // Rigidbody2Dの参照
-    [SerializeField] SO_MaskStatus _maskStatus; // マスクの状態を管理するScriptableObjectの参照
+    [SerializeField] SO_MaskStatus _maskStatus; // マスクステータスを管理するScriptableObjectの参照
+    [SerializeField] SO_OpenStatus _openStatus; // プレイヤーのステータスを管理するScriptableObjectの参照
+    [SerializeField] ItemType _itemType; // 自身が何番目のアイテムかを示すenum
+
+    // 自身が何番目のアイテムかを示すenum
+    public enum ItemType
+    {
+        Item1,
+        Item2,
+        Item3,
+        Key
+    }
 
     private void Start()
     {
@@ -31,6 +42,9 @@ public class PCFollower : MonoBehaviour
             isFollowing = true; // 追従を開始
             rb.gravityScale = 0; // 重力を無効化
             _PCmanager = other.GetComponent<PCmanager>(); // PCmanagerの取得
+
+            // 取得状況を更新。
+            UpdateItemStatus(_itemType , true);
 
             // リストを取得し、nullか要素数が0の場合は、otherを追従対象にする。
             if (_PCmanager._followers.Count == 0 || _PCmanager._followers == null)
@@ -52,6 +66,29 @@ public class PCFollower : MonoBehaviour
                 _maskStatus.canGoal.Value = true;
                 Debug.Log("canGoalをtrueにしました");
             }
+        }
+    }
+
+    // 取得状況を更新するメソッド。
+    public void UpdateItemStatus(ItemType _type , bool _has)
+    {
+        switch (_type)
+        {
+            case ItemType.Item1:
+                _openStatus._hasItem1.Value = _has;
+                break;
+            case ItemType.Item2:
+                _openStatus._hasItem2.Value = _has;
+                break;
+            case ItemType.Item3:
+                _openStatus._hasItem3.Value = _has;
+                break;
+            case ItemType.Key:
+                _openStatus._hasKeyItem.Value = _has;
+                break;
+            default:
+                Debug.LogError("無効なアイテムタイプ: " + _itemType);
+                break;
         }
     }
 
@@ -83,6 +120,9 @@ public class PCFollower : MonoBehaviour
         isFollowing = false;
         // 自分をPCmanagerのリストから削除する
         _PCmanager._followers.Remove(this.gameObject);
+
+        // 取得状況を更新。
+        UpdateItemStatus(_itemType, false);
 
         // 重力を0.2fに設定
         if (rb != null)

@@ -176,6 +176,7 @@ MonoBehaviour:
   addMoveForce: {x: 0, y: 0}
   calcVerocity: {x: 0, y: 0}
   decelerationRate: 4
+  _maskStatus: {fileID: 11400000, guid: 0b9d0e6c103017f4dbb780ddb60182f6, type: 2}
 --- !u!50 &6614734663569370640
 Rigidbody2D:
   serializedVersion: 5
@@ -202,7 +203,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!70 &783131739563983825
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -268,6 +269,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _followers: []
+  _maskStatus: {fileID: 11400000, guid: 0b9d0e6c103017f4dbb780ddb60182f6, type: 2}
 --- !u!1 &7834487446845966067
 GameObject:
   m_ObjectHideFlags: 0
@@ -344,7 +346,7 @@ SpriteRenderer:
   m_SortingLayerID: 355148391
   m_SortingLayer: 3
   m_SortingOrder: 0
-  m_Sprite: {fileID: 7482667652216324306, guid: 75f5f34dc1b5347e0b8351032682f224, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 606d108b8c00f3345a3ae33dd32beca7, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

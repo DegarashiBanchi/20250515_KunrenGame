@@ -1,10 +1,11 @@
 ﻿// OPシーンのマネージャ。
 
-using System.Security.Cryptography;
-using System.Threading.Tasks;
+using System;
+using System.Threading;
 using AnnulusGames.SceneSystem;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class SEV_OP : MonoBehaviour
 {
@@ -13,25 +14,40 @@ public class SEV_OP : MonoBehaviour
     [SerializeField] SceneReference _mainScene; // メインシーンの参照。
     [SerializeField] SceneReference _opScene; // OPシーンの参照。
 
+    CancellationTokenSource _cts; // キャンセルトークンソース。
 
 
     private void Start()
     {
-        // OPイベントの呼び出し。
-        PlayOP().Forget();
+        // トークンの生成。
+        _cts = new CancellationTokenSource();
+
+
+        // キャンセル可能なOPイベントの呼び出し。
+        PlayOP(_cts.Token).Forget();
     }
 
     // OPイベントの処理メソッド。
-    private async UniTask PlayOP()
+    private async UniTask PlayOP(CancellationToken _cts)
     {
-        // OPシーンの開始処理。
-        Debug.Log("OPシーン開始");
+        try
+        {
+            Debug.Log("OPシーン開始");
+            // Debug。5秒待機。
+            await UniTask.Delay(TimeSpan.FromSeconds(5));
+        }
+        catch (OperationCanceledException e)
+        {
+            // キャンセルされた場合の処理。
+            Debug.Log("OPシーンがキャンセルされました。" + e);
 
-        // Debug。5秒後にOPシーンを終了。
-        await UniTask.Delay(5000);
+        }
+        finally
+        {
 
-        // OPシーンの終了処理を呼び出し。
-        OPsceneEnd();
+            // OPシーンの終了処理を呼び出し。
+            OPsceneEnd();
+        }
     }
 
 
@@ -42,6 +58,15 @@ public class SEV_OP : MonoBehaviour
         // メインシーンへの遷移を依頼。
         _sceneLoader.UnloadAndLoadSet(_opScene, _mainScene);
 
+    }
+
+    // キャンセルキーの入力検知メソッド。
+    public void OnCancel(InputAction.CallbackContext context)
+    {
+        if (context.phase == InputActionPhase.Started)
+        {
+            Debug.Log("OPキャンセル！");
+        }
     }
 
 }

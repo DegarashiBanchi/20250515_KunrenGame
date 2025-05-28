@@ -18,6 +18,8 @@ public class CountdownTimer : MonoBehaviour
     // タイマーが一時停止状態かどうかを示すフラグ
     [SerializeField] private bool isPaused = true;
 
+    [SerializeField] private SO_OpenStatus _openStatus; // プレイヤーのステータスを管理するScriptableObjectの参照
+
     // Startメソッドは、スクリプトが有効化されたときやゲーム開始時に一度だけ呼び出されます。
     private void Start()
     {
@@ -39,6 +41,21 @@ public class CountdownTimer : MonoBehaviour
 
             // 現在の残り時間が変化したので、UI表示を更新するメソッドを呼び出す
             UpdateTimerDisplay();
+
+            // 現在の残り時間をSO_OpenStatusに反映
+            if (_openStatus != null)
+            {
+                _openStatus._time.Value = currentTime;
+            }
+
+            // 残り時間が0になった場合、ゲームオーバー処理を発火させる。
+            if (currentTime <= 0f)
+            {
+                // タイマーが0になった場合の処理をここに追加
+                // 例えば、ゲームオーバーのイベントを発火するなど
+                Debug.Log("タイマーが終了しました。ゲームオーバーです。");
+                // ここでゲームオーバーの処理を呼び出すことができます。
+            }
         }
     }
 

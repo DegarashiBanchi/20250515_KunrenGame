@@ -2,6 +2,7 @@
 using AnnulusGames.SceneSystem;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class SEV_Main : MonoBehaviour
 {
@@ -30,6 +31,11 @@ public class SEV_Main : MonoBehaviour
     {
         // _PCプレファブをスタート地点に生成。
         _PC = Instantiate(_PC, _startPosition.position, Quaternion.identity);
+
+        // アクティブなシーン（マネージャシーン）に生成されるので現在のシーンにPCを移動させる。
+        SpawnPCInThisScene();
+
+        _PC.transform.SetParent(null);
 
         // カメラのフォーカスをPCにセット。
         SetCameraFocusToPC(_PC.transform);
@@ -61,10 +67,27 @@ public class SEV_Main : MonoBehaviour
     {
         Debug.Log("メインシーン終了");
 
+        // PCプレファブを破棄。
+        if (_PC != null)
+        {
+            Destroy(_PC);
+            _PC = null;
+        }
+
         // ステータスシーンをアンロード。
         await _sceneLoader.Unload(_statusScene);
 
         // エンディングシーンへの遷移を依頼。
         _sceneLoader.UnloadAndLoadSet(_mainScene, _edScene);
+    }
+
+    // PCのメインシーンへの移動処理。
+    public void SpawnPCInThisScene()
+    {
+        if (_PC != null)
+        {
+            Scene targetScene = this.gameObject.scene;
+            SceneManager.MoveGameObjectToScene(_PC, targetScene);
+        }
     }
 }
