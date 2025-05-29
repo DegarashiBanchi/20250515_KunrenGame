@@ -1,5 +1,4 @@
 ﻿// PCにダメージを与えるスクリプト。
-
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
@@ -7,7 +6,6 @@ public class EnemyManager : MonoBehaviour
 {
     [SerializeField] int enemyDamage = 1; // 敵のダメージ量
     [SerializeField] SO_MaskStatus _maskStatus; // プレイヤーの被弾状態を管理するScriptableObject
-
 
 
     // エネミーの攻撃アニメ。
@@ -23,8 +21,6 @@ public class EnemyManager : MonoBehaviour
         // "Player"タグを持つオブジェクトに衝突した場合
         if (collision.gameObject.CompareTag("Player"))
         {
-            Debug.Log("Playerに衝突！");
-
             // HandlePlayerDamageスクリプトを取得
             HandlePlayerDamage playerDamage = collision.gameObject.GetComponent<HandlePlayerDamage>();
 

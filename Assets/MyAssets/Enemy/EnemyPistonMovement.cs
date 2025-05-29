@@ -4,6 +4,7 @@ using UnityEngine;
 using LitMotion;
 using LitMotion.Extensions;
 using Cysharp.Threading.Tasks;
+using R3;
 
 public enum MovementDirection
 {
@@ -20,6 +21,10 @@ public class EnemyPistonMovement : MonoBehaviour
     [SerializeField] private float _delayBeforeMovement;               // 移動前の遅延時間
     [SerializeField] private Ease _easeType;                           // イージングの種類
     private Rigidbody2D _rigidbody2D;                 // Rigidbody2D コンポーネント
+
+    [Header("疑似Verocity")]
+    private Vector2 _prevPosition; // 前回の位置
+    [SerializeField] SerializableReactiveProperty<Vector2> _selfVerocity = new(Vector2.zero); // 自身の速度を管理するプロパティ
 
     private void Start()
     {
@@ -53,5 +58,19 @@ public class EnemyPistonMovement : MonoBehaviour
                 .BindToLocalPositionY(_rigidbody2D.transform)
                 .AddTo(gameObject);
         }
+
+        // 疑似的なVerocityの初期化
+        _prevPosition = _rigidbody2D.transform.position;
+    }
+
+    private void Update()
+    {
+        // Rigidbody2Dの位置から速度を計算
+        Vector2 currentPosition = _rigidbody2D.transform.position;
+        Vector2 velocity = (currentPosition - _prevPosition) / Time.deltaTime;
+        // 速度をプロパティに設定
+        _selfVerocity.Value = velocity;
+        // 前回の位置を更新
+        _prevPosition = currentPosition;
     }
 }

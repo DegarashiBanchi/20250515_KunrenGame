@@ -215,6 +215,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyDamage: 1
   _maskStatus: {fileID: 11400000, guid: 0b9d0e6c103017f4dbb780ddb60182f6, type: 2}
+  _enemySprite: {fileID: 6705210242914199339}
+  _rb: {fileID: 6089307203685582791}
 --- !u!1 &5812969828396222896
 GameObject:
   m_ObjectHideFlags: 0
