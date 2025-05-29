@@ -72,5 +72,23 @@ public class EnemyPistonMovement : MonoBehaviour
         _selfVerocity.Value = velocity;
         // 前回の位置を更新
         _prevPosition = currentPosition;
+
+        // _selfVerocityに合わせて、SpriteRendererの向きを更新
+        if (_selfVerocity.Value.x > 0)
+        {
+            _rigidbody2D.transform.localScale = new Vector3(1, 1, 1); // 右向き
+        }
+        else if (_selfVerocity.Value.x < 0)
+        {
+            _rigidbody2D.transform.localScale = new Vector3(-1, 1, 1); // 左向き
+        }
+        else if (_selfVerocity.Value.y < 0)
+        {
+            _rigidbody2D.transform.localScale = new Vector3(1, -1, 1); // 下向き
+        }
+        else if (_selfVerocity.Value.y > 0)
+        {
+            _rigidbody2D.transform.localScale = new Vector3(1, 1, 1); // 上向き
+        }
     }
 }
