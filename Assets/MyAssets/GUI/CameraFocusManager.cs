@@ -20,4 +20,18 @@ public class CameraFocusManager : MonoBehaviour
             Debug.LogWarning("CinemachineCamera is not assigned.");
         }
     }
+
+    // カメラのフォーカスを開放するメソッド。
+    public void ReleaseCameraFocus()
+    {
+        if (CinemachineCamera != null)
+        {
+            // ターゲットのトラッキングを解除
+            CinemachineCamera.Target.TrackingTarget = null;
+        }
+        else
+        {
+            Debug.LogWarning("CinemachineCamera is not assigned.");
+        }
+    }
 }

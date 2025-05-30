@@ -22,17 +22,14 @@ public class HandlePlayerDamage : MonoBehaviour
         // damageの値だけHPを減少させる。
         _openStatus._currentHP.Value -= damage;
 
-        // HPが0以下になったらゲームオーバー処理を行う。
+        // HPが0以下になったらゲームオーバー処理を呼び出す
         if (_openStatus._currentHP.Value <= 0)
         {
-            Debug.Log("Game Over!");
-            // ゲームオーバー処理をここに追加する。
-            // 例えば、ゲームオーバー画面を表示するなど。
-            // await GameOver();
+            // ゲームオーバーフラグを立てる。
+            _maskStatus._isGameOver.Value = true;
+
             return;
         }
-
-        // PCを吹き飛ばす。
 
         // 被弾時のアニメーション処理。
         await DamageMotion();

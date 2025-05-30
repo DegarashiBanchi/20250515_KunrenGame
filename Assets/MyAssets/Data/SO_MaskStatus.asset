@@ -13,6 +13,16 @@ MonoBehaviour:
   m_Name: SO_MaskStatus
   m_EditorClassIdentifier: 
   canGoal:
-    value: 1
-  isBeingHit:
     value: 0
+  isBeingHit:
+    value: 1
+  _currentPCPos:
+    value: {x: 1.8166378, y: -37.97523}
+  _currentPCDirection:
+    value: {x: 1, y: 0}
+  _isTimerRunning:
+    value: 0
+  _isGameOver:
+    value: 1
+  _canMove:
+    value: 1

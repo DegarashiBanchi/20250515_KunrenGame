@@ -15,6 +15,15 @@ public class PCmanager : MonoBehaviour
         _maskStatus._currentPCDirection.Subscribe(dir
             => transform.up = _maskStatus._currentPCDirection.Value.normalized
             ).AddTo(this);
+
+        // ゲームオーバーフラグを監視し、ゲームオーバー時の処理を行う。
+        _maskStatus._isGameOver.Subscribe(isGameOver =>
+        {
+            if (isGameOver)
+            {
+                PCGameOver();
+            }
+        }).AddTo(this);
     }
 
     // _followersにオブジェクトを追加するメソッド。
@@ -47,5 +56,12 @@ public class PCmanager : MonoBehaviour
     public void UpdateCurrentPCPos()
     {
         _maskStatus._currentPCPos.Value = new Vector2(transform.position.x, transform.position.y);
+    }
+
+    // ゲームオーバー演出。
+    public void PCGameOver()
+    {
+        // 重力を強くかけて自沈させる。
+        GetComponent<Rigidbody2D>().gravityScale = 10f;
     }
 }

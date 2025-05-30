@@ -1,6 +1,4 @@
-﻿// OPシーンのマネージャ。
-
-using System;
+﻿using System;
 using System.Threading;
 using AnnulusGames.SceneSystem;
 using Cysharp.Threading.Tasks;
@@ -16,40 +14,41 @@ public class SEV_OP : MonoBehaviour
 
     CancellationTokenSource _cts; // キャンセルトークンソース。
 
-
     private void Start()
     {
         // トークンの生成。
         _cts = new CancellationTokenSource();
 
-
         // キャンセル可能なOPイベントの呼び出し。
         PlayOP(_cts.Token).Forget();
     }
 
+    private void OnDestroy()
+    {
+        // CancellationTokenSourceのDispose
+        _cts?.Dispose();
+    }
+
     // OPイベントの処理メソッド。
-    private async UniTask PlayOP(CancellationToken _cts)
+    private async UniTask PlayOP(CancellationToken ct)
     {
         try
         {
             Debug.Log("OPシーン開始");
-            // Debug。5秒待機。
-            await UniTask.Delay(TimeSpan.FromSeconds(5));
+            // Debug。5秒待機。キャンセル可能。
+            await UniTask.Delay(TimeSpan.FromSeconds(5), cancellationToken: ct);
         }
         catch (OperationCanceledException e)
         {
             // キャンセルされた場合の処理。
             Debug.Log("OPシーンがキャンセルされました。" + e);
-
         }
         finally
         {
-
             // OPシーンの終了処理を呼び出し。
             OPsceneEnd();
         }
     }
-
 
     // OPシーンの終了処理。
     private void OPsceneEnd()
@@ -57,7 +56,6 @@ public class SEV_OP : MonoBehaviour
         Debug.Log("OPシーン終了");
         // メインシーンへの遷移を依頼。
         _sceneLoader.UnloadAndLoadSet(_opScene, _mainScene);
-
     }
 
     // キャンセルキーの入力検知メソッド。
@@ -66,7 +64,7 @@ public class SEV_OP : MonoBehaviour
         if (context.phase == InputActionPhase.Started)
         {
             Debug.Log("OPキャンセル！");
+            _cts.Cancel();
         }
     }
-
 }

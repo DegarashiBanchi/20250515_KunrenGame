@@ -544,6 +544,8 @@ MonoBehaviour:
   initialTime: 240
   timerText: {fileID: 1997042822}
   isPaused: 1
+  _openStatus: {fileID: 11400000, guid: 9bdf2b56b910fd449a431c49d26e509a, type: 2}
+  _maskStatus: {fileID: 11400000, guid: 0b9d0e6c103017f4dbb780ddb60182f6, type: 2}
 --- !u!4 &410560041
 Transform:
   m_ObjectHideFlags: 0

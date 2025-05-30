@@ -1,11 +1,11 @@
 ﻿// エームステートを管理するステートマシン。
 
 using IceMilkTea.StateMachine;
-using UnityEditor;
 using UnityEngine;
 
 public class SM_GameState : MonoBehaviour
 {
+    [SerializeField] SO_MaskStatus _maskStatus; // プレイヤーの被弾状態を管理するScriptableObject
     ImtStateMachine<SM_GameState, GameStateEvents> _stateMacine; // ステートマシンの定義
 
     // 遷移イベントの定義
@@ -34,7 +34,7 @@ public class SM_GameState : MonoBehaviour
         _stateMacine.SetStartState<TitleState>(); // タイトル画面を初期ステートに設定
 
         // ステートマシンの起動
-        _stateMacine.Update(); 
+        _stateMacine.Update();
     }
 
 
@@ -47,38 +47,85 @@ public class SM_GameState : MonoBehaviour
     // 各種ステートクラスの定義
 
     // タイトル画面ステート
-    private class TitleState : ImtStateMachine<SM_GameState , GameStateEvents>.State
+    private class TitleState : ImtStateMachine<SM_GameState, GameStateEvents>.State
     {
-       
+        protected internal override void Enter()
+        {
+            Debug.Log($"{Context._stateMacine.CurrentStateName}");
+        }
+
     }
 
     // オープニング画面ステート
     private class OPState : ImtStateMachine<SM_GameState, GameStateEvents>.State
-    {
+{
 
+}
+
+// ゲーム画面ステート
+private class GameState : ImtStateMachine<SM_GameState, GameStateEvents>.State
+{
+    protected internal override void Enter()
+    {
+        // PCの操作を無効化
+        Context.TogglePCControl(true);
+        Debug.Log("ゲーム開始なので移動を有効化");
+    }
+}
+
+// ゲームオーバー画面ステート
+private class GameOverState : ImtStateMachine<SM_GameState, GameStateEvents>.State
+{
+    protected internal override void Enter()
+    {
+        // PCの操作を無効化
+        Context.TogglePCControl(false);
+        Debug.Log("ゲームオーバーなので移動を無効化");
     }
 
-    // ゲーム画面ステート
-    private class GameState : ImtStateMachine<SM_GameState, GameStateEvents>.State
+}
+
+
+// クリア画面ステート
+private class ClearState : ImtStateMachine<SM_GameState, GameStateEvents>.State
+{
+    protected internal override void Enter()
     {
+        // PCの操作を無効化
+        Context.TogglePCControl(false);
+        Debug.Log("クリアなので移動を無効化");
     }
+}
 
-    // ゲームオーバー画面ステート
-    private class GameOverState : ImtStateMachine<SM_GameState, GameStateEvents>.State
+
+// ステートマシンの遷移メソッド
+public void TransitionToState(GameStateEvents stateEvents)
+{
+    // switch文を使用して、指定されたイベントに基づいてステートマシンを遷移させる。
+    switch (stateEvents)
     {
+        case GameStateEvents.ToTitle:
+            _stateMacine.SendEvent(GameStateEvents.ToTitle);
+            break;
+        case GameStateEvents.ToOP:
+            _stateMacine.SendEvent(GameStateEvents.ToOP);
+            break;
+        case GameStateEvents.ToGame:
+            _stateMacine.SendEvent(GameStateEvents.ToGame);
+            break;
+        case GameStateEvents.ToGameOver:
+            _stateMacine.SendEvent(GameStateEvents.ToGameOver);
+            break;
+        case GameStateEvents.ToClear:
+            _stateMacine.SendEvent(GameStateEvents.ToClear);
+            break;
     }
+}
 
 
-    // クリア画面ステート
-    private class ClearState : ImtStateMachine<SM_GameState, GameStateEvents>.State
-    {
-    }
-
-
-    // ステートマシンの遷移メソッド
-    // ゲームステートへの遷移。
-    public void TransitionToGameState()
-    {
-        _stateMacine.SendEvent(GameStateEvents.ToGame);
-    }
+// PCの操作可能を切り替えるメソッド。
+public void TogglePCControl(bool canControl)
+{
+    _maskStatus._canMove.Value = canControl; // プレイヤーの移動可能状態を更新
+}
 }

@@ -1,5 +1,6 @@
-﻿using UnityEngine;        
-using TMPro;              
+﻿using UnityEngine;
+using TMPro;
+using R3; 
 
 public class CountdownTimer : MonoBehaviour
 {
@@ -19,12 +20,18 @@ public class CountdownTimer : MonoBehaviour
     [SerializeField] private bool isPaused = true;
 
     [SerializeField] private SO_OpenStatus _openStatus; // プレイヤーのステータスを管理するScriptableObjectの参照
+    [SerializeField] private SO_MaskStatus _maskStatus; // プレイヤーの被弾状態を管理するScriptableObjectの参照
 
-    // Startメソッドは、スクリプトが有効化されたときやゲーム開始時に一度だけ呼び出されます。
     private void Start()
     {
         // タイマーの初期化（初期時間にリセットし、経過時間を0に設定）
         ResetTimer();
+
+        // _maskStatus._isTimerRunning を監視し、値が変更されたときに isPaused を更新
+        _maskStatus._isTimerRunning.Subscribe(isRunning =>
+        {
+            isPaused = !isRunning; // true ならタイマースタート（isPaused = false）、false なら一時停止（isPaused = true）
+        }).AddTo(this); 
     }
 
     // Updateメソッドは毎フレーム実行され、リアルタイムな処理を担当します。
@@ -51,10 +58,8 @@ public class CountdownTimer : MonoBehaviour
             // 残り時間が0になった場合、ゲームオーバー処理を発火させる。
             if (currentTime <= 0f)
             {
-                // タイマーが0になった場合の処理をここに追加
-                // 例えば、ゲームオーバーのイベントを発火するなど
-                Debug.Log("タイマーが終了しました。ゲームオーバーです。");
-                // ここでゲームオーバーの処理を呼び出すことができます。
+                Debug.Log("タイムアウト！");  
+                _maskStatus._isGameOver.Value = true; // ゲームオーバーフラグを立てる
             }
         }
     }
@@ -69,20 +74,6 @@ public class CountdownTimer : MonoBehaviour
         }
     }
 
-    // 外部から呼び出してタイマーを一時停止するためのパブリックメソッド
-    public void PauseTimer()
-    {
-        // タイマーの更新処理を停止するためにフラグをtrueにする
-        isPaused = true;
-    }
-
-    // 外部から呼び出して一時停止状態のタイマーを再開するためのパブリックメソッド
-    public void ResumeTimer()
-    {
-        // タイマーの更新処理を再び有効にするためにフラグをfalseにする
-        isPaused = false;
-    }
-
     // タイマーを初期状態にリセットするメソッド
     public void ResetTimer()
     {
@@ -94,29 +85,4 @@ public class CountdownTimer : MonoBehaviour
         UpdateTimerDisplay();
     }
 
-    // タイマーに指定秒数の時間を追加するためのメソッド
-    public void AddTime(float seconds)
-    {
-        // seconds分の時間を追加し、結果が負にならないように Mathf.Max で調整
-        currentTime = Mathf.Max(currentTime + seconds, 0f);
-
-        // 追加後の残り時間に基づいて、総経過時間を再計算
-        elapsedTime = initialTime - currentTime;
-
-        // 変更された時間情報を画面に反映
-        UpdateTimerDisplay();
-    }
-
-    // タイマーから指定秒数分の時間を減算するためのメソッド
-    public void SubtractTime(float seconds)
-    {
-        // 指定秒数分の時間を減算し、結果が0未満にならないよう Mathf.Max 関数で調整
-        currentTime = Mathf.Max(currentTime - seconds, 0f);
-
-        // 減算後の残り時間に基づき、elapsedTimeを再計算
-        elapsedTime = initialTime - currentTime;
-
-        // 更新されたタイマーの状態をUIに反映
-        UpdateTimerDisplay();
-    }
 }
