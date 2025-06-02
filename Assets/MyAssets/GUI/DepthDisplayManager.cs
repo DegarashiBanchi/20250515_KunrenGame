@@ -30,7 +30,7 @@ public class DepthDisplayManager : MonoBehaviour
             _openSO._currentDepth.Subscribe(depth =>
             {
                 // 深度が更新されたらテキストを更新
-                _depthText.text = $"{depth * -1:F2} m";
+                _depthText.text = $"{depth * -1:F1} <size=-8>m</size>";
             }).AddTo(this);
         }
     }

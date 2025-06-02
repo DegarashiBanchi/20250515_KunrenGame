@@ -7,9 +7,10 @@ public class WiPESpriteManager : MonoBehaviour
 {
     [SerializeField] SO_MaskStatus _SO_MaskStatus; // プレイヤーの被弾状態を管理するScriptableObject
     [SerializeField] SpriteRenderer _wipeSprite; // ワイプのスプライトレンダラー
-    [Header("PCスプライト設定")]
-    [SerializeField] Sprite _sprite_Nomal; // 通常スプライト
-    [SerializeField] Sprite _sprite_Hit; // 被弾スプライト
+    [SerializeField] Animator _wipeAnimator; // ワイプのアニメーター
+    //[Header("PCスプライト設定")]
+    //[SerializeField] Sprite _sprite_Nomal; // 通常スプライト
+    //[SerializeField] Sprite _sprite_Hit; // 被弾スプライト
 
     // PCスプライトの種別enum。
     public enum PCSpriteType
@@ -33,10 +34,11 @@ public class WiPESpriteManager : MonoBehaviour
         switch (spriteType)
         {
             case PCSpriteType.Normal:
-                _wipeSprite.sprite = _sprite_Nomal;
+                //_wipeSprite.sprite = _sprite_Nomal;
+                _wipeAnimator.SetBool("isHit", false); // アニメーターのパラメータを更新
                 break;
             case PCSpriteType.Hit:
-                _wipeSprite.sprite = _sprite_Hit;
+                _wipeAnimator.SetBool("isHit", true); // アニメーターのパラメータを更新
                 break;
         }
     }

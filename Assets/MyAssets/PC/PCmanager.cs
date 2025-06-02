@@ -8,12 +8,13 @@ public class PCmanager : MonoBehaviour
 {
     [SerializeField] public List<GameObject> _followers; // PCの追従するオブジェクトのリスト
     [SerializeField] SO_MaskStatus _maskStatus; // マスクステータス情報のScriptableObject
+    [SerializeField] SpriteRenderer _spriteRenderer; // PCのスプライトレンダラー
 
     private void Start()
     {
-        // PCの向きを監視し、変化があれば自分の方向を更新する。
+        // PCの向きを監視し、変化があれば_spriteRendererの方向を更新する。
         _maskStatus._currentPCDirection.Subscribe(dir
-            => transform.up = _maskStatus._currentPCDirection.Value.normalized
+            => _spriteRenderer.transform.up = _maskStatus._currentPCDirection.Value.normalized
             ).AddTo(this);
 
         // ゲームオーバーフラグを監視し、ゲームオーバー時の処理を行う。

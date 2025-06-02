@@ -1,9 +1,7 @@
 ﻿// プレイヤーに見せる必要のない数値の管理SO。
 
-using IceMilkTea.StateMachine;
 using R3;
 using UnityEngine;
-using static SM_GameState;
 
 [CreateAssetMenu(fileName = "SO_MaskStatus", menuName = "ScriptableObject/SO_MaskStatus")]
 public class SO_MaskStatus : ScriptableObject
@@ -16,7 +14,6 @@ public class SO_MaskStatus : ScriptableObject
     [SerializeField] public SerializableReactiveProperty<bool> _isGameOver = new(false); // ゲームオーバー状態を管理するReactiveProperty
     [SerializeField] public SerializableReactiveProperty<bool> _canMove = new(true); // プレイヤーの移動可能状態を管理するReactiveProperty
 
-   
 
     // 初期化メソッド。
     public void Initialize()
@@ -27,6 +24,7 @@ public class SO_MaskStatus : ScriptableObject
         _currentPCDirection.Value = Vector2.down;
         _isTimerRunning.Value = false;
         _isGameOver.Value = false;
+        _canMove.Value = true;
 
         Debug.Log("SO_MaskStatus 初期化");
     }

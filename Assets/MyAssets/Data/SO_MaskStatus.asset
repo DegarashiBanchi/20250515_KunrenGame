@@ -15,14 +15,14 @@ MonoBehaviour:
   canGoal:
     value: 0
   isBeingHit:
-    value: 1
+    value: 0
   _currentPCPos:
-    value: {x: 1.8166378, y: -37.97523}
+    value: {x: -2.7424464, y: -17.13948}
   _currentPCDirection:
-    value: {x: 1, y: 0}
+    value: {x: 0, y: -1}
   _isTimerRunning:
     value: 0
   _isGameOver:
-    value: 1
+    value: 0
   _canMove:
     value: 1
