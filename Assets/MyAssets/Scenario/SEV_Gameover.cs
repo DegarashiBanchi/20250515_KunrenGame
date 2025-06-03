@@ -1,5 +1,6 @@
 ﻿// ゲームオーバー処理を担当するスクリプト。
 
+using System;
 using AnnulusGames.SceneSystem;
 using Cysharp.Threading.Tasks;
 using LitMotion;
@@ -67,13 +68,14 @@ public class SEV_Gameover : MonoBehaviour
         _gameoverPanel.SetActive(false);
         // 選択肢のレイアウトを非表示に。
         _gameoverLayout.gameObject.SetActive(false);
-
     }
 
 
     // ゲームオーバーのテキスト表示メソッド。
     public async UniTask ShowGameOverText()
     {
+        await UniTask.Delay(TimeSpan.FromSeconds(0.3f)); // 少し待機してから表示。
+
         // テキストを不透明化。
         var handle_GOText = LMotion.Create(0f, 1f, 0.5f)
             .BindToColorA(_gameoverText)

@@ -266,6 +266,7 @@ GameObject:
   - component: {fileID: 115299664}
   - component: {fileID: 115299663}
   - component: {fileID: 115299665}
+  - component: {fileID: 115299666}
   m_Layer: 0
   m_Name: ScenarioManager
   m_TagString: Untagged
@@ -340,9 +341,21 @@ MonoBehaviour:
   _gameoverPanel: {fileID: 1223848272}
   _gameoverText: {fileID: 540119326}
   _cameraFocusManager: {fileID: 896847774}
-  _gameoverLayout: {fileID: 0}
-  _focusObject: {fileID: 0}
-  _selectableRetry: {fileID: 0}
+  _gameoverLayout: {fileID: 55120617}
+  _focusObject: {fileID: 115299666}
+  _selectableRetry: {fileID: 1399819330}
+--- !u!114 &115299666
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 115299662}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 69fea1222cb66194985cd368615f97b9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &143091356
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5830,13 +5843,13 @@ MonoBehaviour:
   customSubmitEvent:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 115299662}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
-        m_Mode: 0
+      - m_Target: {fileID: 115299665}
+        m_TargetAssemblyTypeName: SEV_Gameover, Assembly-CSharp
+        m_MethodName: ExitSelected
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -5845,13 +5858,13 @@ MonoBehaviour:
   customPointerClickEvent:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 115299662}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
-        m_Mode: 0
+      - m_Target: {fileID: 115299665}
+        m_TargetAssemblyTypeName: SEV_Gameover, Assembly-CSharp
+        m_MethodName: ExitSelected
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -7019,13 +7032,13 @@ MonoBehaviour:
   customSubmitEvent:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 115299662}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
-        m_Mode: 0
+      - m_Target: {fileID: 115299665}
+        m_TargetAssemblyTypeName: SEV_Gameover, Assembly-CSharp
+        m_MethodName: RetrySelected
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -7034,13 +7047,13 @@ MonoBehaviour:
   customPointerClickEvent:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 115299662}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
-        m_Mode: 0
+      - m_Target: {fileID: 115299665}
+        m_TargetAssemblyTypeName: SEV_Gameover, Assembly-CSharp
+        m_MethodName: RetrySelected
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
