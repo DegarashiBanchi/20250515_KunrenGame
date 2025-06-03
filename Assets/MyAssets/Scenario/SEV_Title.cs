@@ -33,6 +33,8 @@ public class SEV_Title : MonoBehaviour
 
     private void Start()
     {
+        // fpsを60に設定。
+        Application.targetFrameRate = 60;
         OnAnyKeyPressed().Forget();
     }
 

@@ -18,6 +18,8 @@ public class SEV_Gameover : MonoBehaviour
     [SerializeField] SceneLoadChatcer _sceneLoader; // シーン遷移を管理するスクリプト
     [SerializeField] SceneReference _titleScene; // タイトルシーンの参照
     [SerializeField] SceneReference _mainScene; // メインシーンの参照
+    [SerializeField] SceneReference _statusScene; // ステータスシーンの参照
+    [SerializeField] SEV_Main _sevMain; // メインシナリオイベントの参照
 
     [Header("UI演出")]
     [SerializeField] GameObject _gameoverPanel; // ゲームオーバー時に表示する黒いスクリーン
@@ -96,14 +98,17 @@ public class SEV_Gameover : MonoBehaviour
         // ゲームオーバー画面を閉じる処理を実行。
         CloseGameOverScreen();
 
-        // プレイヤーの状態を初期化。
-        _MaskStatus.Initialize();
+        // タイトル開始。
+        _sevMain.InitializeMainGame().Forget();
     }
 
 
     // やめる選択肢を選択したときの処理メソッド。
     public void ExitSelected()
     {
+        // ステータスシーンのアンロード。
+        _sceneLoader.Unload(_statusScene).Forget();
+
         // タイトルシーンに戻る処理を実行。
         _sceneLoader.UnloadAndLoadSet(_mainScene, _titleScene);
     }

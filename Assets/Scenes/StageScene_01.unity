@@ -338,6 +338,10 @@ MonoBehaviour:
   _mainScene:
     sceneAsset: {fileID: 102900000, guid: ac89a79c169f25a46a48597f26440073, type: 3}
     _assetPath: Assets/Scenes/StageScene_01.unity
+  _statusScene:
+    sceneAsset: {fileID: 102900000, guid: 769185f7fb3b41b4f97eba6a96568bc9, type: 3}
+    _assetPath: Assets/Scenes/StatusScene.unity
+  _sevMain: {fileID: 115299663}
   _gameoverPanel: {fileID: 1223848272}
   _gameoverText: {fileID: 540119326}
   _cameraFocusManager: {fileID: 896847774}
