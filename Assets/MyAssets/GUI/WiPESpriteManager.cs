@@ -8,38 +8,18 @@ public class WiPESpriteManager : MonoBehaviour
     [SerializeField] SO_MaskStatus _SO_MaskStatus; // プレイヤーの被弾状態を管理するScriptableObject
     [SerializeField] SpriteRenderer _wipeSprite; // ワイプのスプライトレンダラー
     [SerializeField] Animator _wipeAnimator; // ワイプのアニメーター
-    //[Header("PCスプライト設定")]
-    //[SerializeField] Sprite _sprite_Nomal; // 通常スプライト
-    //[SerializeField] Sprite _sprite_Hit; // 被弾スプライト
-
-    // PCスプライトの種別enum。
-    public enum PCSpriteType
-    {
-        Normal,
-        Hit,
-        // 他のスプライトタイプを追加することができます。
-    }
     private void Start()
     {
-        // _SO_MaskStatus.isBeingHitを監視して、被弾状態したらスプライト変更。
-        _SO_MaskStatus.isBeingHit.Subscribe(isHit =>
-                    ChangeSprite(isHit ? PCSpriteType.Hit : PCSpriteType.Normal)
-        );
-
-    }
-
-    // スプライト変更メソッド。
-    public void ChangeSprite(PCSpriteType spriteType)
-    {
-        switch (spriteType)
+        //_SO_MaskStatus._isGameOverを購読し、変化があった場合、_wipeAnimator.SetBoolの"IsGameOver"と連動させる
+        _SO_MaskStatus._isGameOver.Subscribe(isGameOver =>
         {
-            case PCSpriteType.Normal:
-                //_wipeSprite.sprite = _sprite_Nomal;
-                _wipeAnimator.SetBool("isHit", false); // アニメーターのパラメータを更新
-                break;
-            case PCSpriteType.Hit:
-                _wipeAnimator.SetBool("isHit", true); // アニメーターのパラメータを更新
-                break;
-        }
+            _wipeAnimator.SetBool("isGameOver", isGameOver);
+        }).AddTo(this);
+
+        // 同様に、_SO_MaskStatus._isBeingHitを購読し、変化があった場合、_wipeAnimator.SetBoolの"IsHit"と連動させる
+        _SO_MaskStatus.isBeingHit.Subscribe(isBeingHit =>
+        {
+            _wipeAnimator.SetBool("isHit", isBeingHit);
+        }).AddTo(this);
     }
 }

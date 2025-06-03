@@ -8,6 +8,7 @@ using R3;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class SEV_Gameover : MonoBehaviour
 {
@@ -21,6 +22,9 @@ public class SEV_Gameover : MonoBehaviour
     [SerializeField] GameObject _gameoverPanel; // ゲームオーバー時に表示する黒いスクリーン
     [SerializeField] TMP_Text _gameoverText; // ゲームオーバーのメッセージを表示するTextMeshProUGUIコンポーネント
     [SerializeField] CameraFocusManager _cameraFocusManager; // カメラのフォーカスマネージャ
+    [SerializeField] HorizontalLayoutGroup _gameoverLayout; // ゲームオーバーの選択肢を配置するレイアウトグループ
+    [SerializeField] SetFocusObject _focusObject; // 選択肢へのフォーカスを管理するSetFocusObject
+    [SerializeField] CustomSelectable _selectableRetry; // リトライ選択肢のカスタムセレクタブル
 
     private void Start()
     {
@@ -50,12 +54,21 @@ public class SEV_Gameover : MonoBehaviour
         await ShowGameOverText();
 
         // リトライ選択肢を表示。
+        _gameoverLayout.gameObject.SetActive(true);
 
         // リトライ選択肢にフォーカスを当てる。
-
+        _focusObject.SetFocusOnObject(_selectableRetry.gameObject);
     }
 
     // ゲームオーバー画面を閉じるメソッド。
+    private void CloseGameOverScreen()
+    {
+        // ゲームオーバーパネルを非表示に。
+        _gameoverPanel.SetActive(false);
+        // 選択肢のレイアウトを非表示に。
+        _gameoverLayout.gameObject.SetActive(false);
+
+    }
 
 
     // ゲームオーバーのテキスト表示メソッド。
@@ -78,6 +91,9 @@ public class SEV_Gameover : MonoBehaviour
     // リトライ選択肢を選択したときの処理メソッド。
     public void RetrySelected()
     {
+        // ゲームオーバー画面を閉じる処理を実行。
+        CloseGameOverScreen();
+
         // プレイヤーの状態を初期化。
         _MaskStatus.Initialize();
     }
@@ -87,5 +103,6 @@ public class SEV_Gameover : MonoBehaviour
     public void ExitSelected()
     {
         // タイトルシーンに戻る処理を実行。
+        _sceneLoader.UnloadAndLoadSet(_mainScene, _titleScene);
     }
 }
